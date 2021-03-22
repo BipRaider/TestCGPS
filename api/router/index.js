@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = server => {
-   server.use('/api/bicycles', require('../modules/bicycles/router/bike.router'));
-   server.use('/api-docs', require('../modules/swagger/router/swagger.router'));
+   server.set('views engine', 'hbs');
+   server.engine('html', require('hbs').__express);
+   server.use('/', require('../memos/router/memo.router'));
 };

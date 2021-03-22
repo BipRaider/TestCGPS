@@ -1,5 +1,5 @@
 'use strict';
 
-const TTSBack = require('./server');
+const CGPSBack = require('./server');
 
-new TTSBack().start();
+new CGPSBack().start();

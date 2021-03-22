@@ -3,12 +3,15 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const hbs = require('hbs');
+hbs.registerPartials(process.cwd() + '/views/partials');
 
 const router = require('./router');
 const { connectionOnDB } = require('./data');
 const config = require('./config');
 
-module.exports = class TTSBack {
+module.exports = class CGPSBack {
    constructor() {
       this.server = null;
    }
@@ -33,6 +36,8 @@ module.exports = class TTSBack {
    initMiddlewares() {
       this.server.use(express.urlencoded());
       this.server.use(express.json());
+      this.server.use(bodyParser.urlencoded({ extended: false }));
+      this.server.use(bodyParser.json());
       this.server.use(cors({ origin: config.corsUrl }));
       this.server.disable('x-powered-by');
    }
