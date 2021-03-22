@@ -1,0 +1,1 @@
+exports.connectionOnDB = require('./connectionOnDB');

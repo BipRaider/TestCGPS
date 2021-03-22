@@ -1,0 +1,411 @@
+{
+   "openapi": "3.0.3",
+   "info": {
+      "version": "1.0.0",
+      "title": "TTS API docs",
+      "description": "API documentation for TTS project TTSBack [Backend github repository](https://github.com/BipRaider/TTSBack)",
+      "license": {
+         "name": "MIT",
+         "url": "https://opensource.org/licenses/MIT"
+      }
+   },
+   "servers": [
+      { "url": "https://powerful-springs-97618.herokuapp.com" },
+      { "url": "http://localhost:3100" }
+   ],
+   "consumes": ["application/json"],
+   "produces": ["application/json"],
+   "tags": [
+      {
+         "name": "Bike",
+         "description": "Bike endpoints"
+      }
+   ],
+   "paths": {
+      "/api/bicycles get": {
+         "get": {
+            "tags": ["Bike"],
+            "summary": "Return will  list bicycles in hired or not",
+            "parameters": [],
+            "requestBody": {
+               "description": "Registration's object",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/BicyclesRequestHire"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Successful operation",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/BicyclesResponseHire"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/RequestError404"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Invalid request body",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/RequestError400"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/bicycles post": {
+         "post": {
+            "tags": ["Bike"],
+            "summary": "New bike will be add in register",
+            "parameters": [],
+            "requestBody": {
+               "description": "Authentication's object",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/AddBikeRequest"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "201": {
+                  "description": "Successful operation",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/AddBikeResponse"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Invalid request body",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/RequestError400"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/bicycles  patch": {
+         "patch": {
+            "tags": ["Bike"],
+            "summary": "In found a bicycle  will be  changing status hire",
+            "parameters": [],
+            "requestBody": {
+               "description": "Object with user's characteristics",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/RequestById"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "201": {
+                  "description": "Successful operation",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/ResponseChangeHire"
+                        }
+                     }
+                  }
+               },
+               "404": {
+                  "description": "Is't found bike",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/RequestError404"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Invalid request body",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/RequestError400"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/api/bicycles delete": {
+         "delete": {
+            "tags": ["Bike"],
+            "summary": "Bike will be delete from database",
+            "parameters": [],
+            "requestBody": {
+               "description": "Object with user's characteristics",
+               "required": true,
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/RequestById"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "201": {
+                  "description": "Successful operation",
+                  "content": {}
+               },
+               "404": {
+                  "description": "Is't found bike",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/RequestError404"
+                        }
+                     }
+                  }
+               },
+               "400": {
+                  "description": "Invalid request body",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "$ref": "#/components/schemas/RequestError400"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+   },
+   "components": {
+      "schemas": {
+         "AddBikeRequest": {
+            "required": ["typeBike", "name", "rent"],
+            "type": "object",
+            "description": "Bikes list",
+            "properties": {
+               "typeBike": {
+                  "type": "string",
+                  "description": "Bike's type",
+                  "example": "city"
+               },
+               "name": {
+                  "type": "string",
+                  "description": "Bike's name",
+                  "example": "bike name"
+               },
+               "rent": {
+                  "type": "number",
+                  "description": "Bike's rent",
+                  "example": 19.1
+               }
+            }
+         },
+         "AddBikeResponse": {
+            "required": ["typeBike", "name", "rent", "id"],
+            "type": "object",
+            "description": "Bikes list",
+            "properties": {
+               "hire": {
+                  "type": "boolean",
+                  "description": "Bike's hire",
+                  "example": false
+               },
+               "typeBike": {
+                  "type": "string",
+                  "description": "Bike's type",
+                  "example": "city"
+               },
+               "name": {
+                  "type": "string",
+                  "description": "Bike's name",
+                  "example": "bike name"
+               },
+               "time": {
+                  "type": "Data",
+                  "description": "Bike's time added",
+                  "example": "2021-02-28T17:22:12.195Z"
+               },
+               "rent": {
+                  "type": "number",
+                  "description": "Bike's rent",
+                  "example": 19.1
+               },
+               "id": {
+                  "type": "ObjectId",
+                  "description": "Bike's id",
+                  "example": "603bd152e9389e2f44fc9bd3"
+               }
+            }
+         },
+         "BicyclesResponse": {
+            "required": ["typeBike", "name", "rent", "id"],
+            "type": "array",
+            "description": "Bikes list",
+            "items": {
+               "type": "object",
+               "properties": {
+                  "hire": {
+                     "type": "boolean",
+                     "description": "Bike's hire",
+                     "example": false
+                  },
+                  "typeBike": {
+                     "type": "string",
+                     "description": "Bike's type",
+                     "example": "city"
+                  },
+                  "name": {
+                     "type": "string",
+                     "description": "Bike's name",
+                     "example": "bike name"
+                  },
+                  "time": {
+                     "type": "Data",
+                     "description": "Bike's time added",
+                     "example": "2021-02-28T17:22:12.195Z"
+                  },
+                  "rent": {
+                     "type": "number",
+                     "description": "Bike's rent",
+                     "example": 19.1
+                  },
+                  "id": {
+                     "type": "ObjectId",
+                     "description": "Bike's id",
+                     "example": "603bd152e9389e2f44fc9bd3"
+                  }
+               }
+            }
+         },
+         "BicyclesResponseHire": {
+            "required": ["hire"],
+            "type": "array",
+            "description": "Bikes list",
+            "items": {
+               "type": "object",
+               "properties": {
+                  "hire": {
+                     "type": "boolean",
+                     "description": "Bike's hire",
+                     "example": true
+                  },
+                  "typeBike": {
+                     "type": "string",
+                     "description": "Bike's type",
+                     "example": "city"
+                  },
+                  "name": {
+                     "type": "string",
+                     "description": "Bike's name",
+                     "example": "bike name"
+                  },
+                  "time": {
+                     "type": "Data",
+                     "description": "Bike's time added",
+                     "example": "2021-02-28T17:22:12.195Z"
+                  },
+                  "rent": {
+                     "type": "number",
+                     "description": "Bike's rent",
+                     "example": 19.1
+                  },
+                  "id": {
+                     "type": "ObjectId",
+                     "description": "Bike's id",
+                     "example": "603bd152e9389e2f44fc9bd3"
+                  }
+               }
+            }
+         },
+         "BicyclesRequestHire": {
+            "required": ["hire"],
+            "type": "object",
+            "properties": {
+               "hire": {
+                  "type": "string",
+                  "description": "Bike's hire",
+                  "example": "true or false"
+               }
+            }
+         },
+         "RequestById": {
+            "required": ["email", "password"],
+            "type": "object",
+            "properties": {
+               "id": {
+                  "type": "ObjectId",
+                  "description": "Bike's id",
+                  "example": "603bd152e9389e2f44fc9bd3"
+               }
+            }
+         },
+         "ResponseChangeHire": {
+            "required": ["email", "password"],
+            "type": "object",
+            "properties": {
+               "id": {
+                  "type": "ObjectId",
+                  "description": "Bike's id",
+                  "example": "603bd152e9389e2f44fc9bd3"
+               },
+               "hire": {
+                  "type": "string",
+                  "description": "Bike's hire",
+                  "example": "true or false"
+               }
+            }
+         },
+         "RequestError404": {
+            "required": ["massage"],
+            "type": "object",
+            "properties": {
+               "massage": {
+                  "type": "string",
+                  "example": "Is't found bike"
+               }
+            }
+         },
+         "RequestError400": {
+            "required": ["massage"],
+            "type": "object",
+            "properties": {
+               "massage": {
+                  "type": "string",
+                  "example": "Invalid request body"
+               }
+            }
+         }
+      }
+   }
+}
