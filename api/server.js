@@ -1,10 +1,11 @@
 'use strict';
+const path = require('path');
 
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const hbs = require('hbs');
-hbs.registerPartials(process.cwd() + '/views/partials');
+hbs.registerPartials(path.join(__dirname, '../views/partials'));
 
 const router = require('./router');
 const { connectionOnDB } = require('./data');

@@ -6,7 +6,7 @@
    "scripts": {
       "test": "mocha api/**/*.spec.js",
       "start": "node api/start.js",
-      "dev": "nodemon api/start.js --ignore db/"
+      "dev": "nodemon api/start.js"
    },
    "author": "Mykhaylo Yevdokymov",
    "license": "ISC",
