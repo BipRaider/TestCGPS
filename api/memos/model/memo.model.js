@@ -14,6 +14,7 @@ memoSchema.statics.updateMemo = updateMemo;
 memoSchema.statics.findMemoByID = findMemoByID;
 memoSchema.statics.removeMemo = removeMemo;
 memoSchema.statics.findData = findData;
+memoSchema.statics.findMemoByTitle = findMemoByTitle;
 
 async function getMemos() {
    return await this.find();
@@ -21,6 +22,10 @@ async function getMemos() {
 
 async function findMemoByID(_id) {
    return await this.findOne({ _id });
+}
+
+async function findMemoByTitle(value) {
+   return await this.findOne({ title: value });
 }
 
 async function updateMemo(id, category) {

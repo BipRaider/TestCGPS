@@ -56,4 +56,21 @@ module.exports = class ValidatorMemo {
       checkedId(val.value.id);
       next();
    }
+   static validateMemoInCategory(req, res, next) {
+      console.dir(req.body);
+      const validationMemo = Joi.object({
+         category: Joi.string().required(),
+         title: Joi.string().required(),
+      });
+
+      const val = validationMemo.validate(req.body);
+
+      if (val.error) {
+         const err = new Error('Invalid request body');
+         err.code = 400;
+         throw err;
+      }
+
+      next();
+   }
 };

@@ -3,7 +3,6 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const bodyParser = require('body-parser');
 const hbs = require('hbs');
 hbs.registerPartials(process.cwd() + '/views/partials');
 
@@ -36,8 +35,6 @@ module.exports = class CGPSBack {
    initMiddlewares() {
       this.server.use(express.urlencoded());
       this.server.use(express.json());
-      this.server.use(bodyParser.urlencoded({ extended: false }));
-      this.server.use(bodyParser.json());
       this.server.use(cors({ origin: config.corsUrl }));
       this.server.disable('x-powered-by');
    }

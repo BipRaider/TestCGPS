@@ -1,6 +1,6 @@
 'use strict';
 
-const memoModel = require('../data/Memo.model');
+const memoModel = require('../../model/Memo.model');
 
 module.exports = async (data, time) => {
    try {

@@ -20,12 +20,12 @@
 
           <div class="form-group ">
             <label for="Title">Note title</label>
-            <input type="text" name="title" class="form-control " id="Title" placeholder="Note title">
+            <input type="text" name="title" class="form-control " id="Title" placeholder="Note title" required>
           </div>
 
           <div class="form-group">
             <label for="Memo">Memo</label>
-            <input type="text" name="memo" class="form-control" id="Memo"  placeholder="Your memo">
+            <input type="text" name="memo" class="form-control" id="Memo"  placeholder="Your memo" required>
           </div>
 
           <div class="form-group col-xs-4 col-sm-4">
@@ -46,6 +46,10 @@
 
           <button type="submit" class="btn btn-default col-sm-12">Submit</button>
         </form>
+
+        {{#if addedMemo}}
+          {{>memo memo=.}}
+        {{/if}}
     </div>
 
   </div>

@@ -1,13 +1,25 @@
 'use strict';
 
-const { addMemo, changeMemo, deleteMemo, getListCategory } = require('../models');
+const EventEmitter = require('events');
 
-module.exports = class MemoController {
-   static async getListCategory(req, res, next) {
+const {
+   addMemo,
+   changeMemo,
+   deleteMemo,
+   getListMemos,
+   removeMemoFromCategory,
+   addMemoOnCategory,
+   aggregateMemoInCategory,
+} = require('../handlers/memo');
+
+const findId = require('../handlers/findId');
+
+module.exports = class MemoController extends EventEmitter {
+   static async getListMemos(req, res, next) {
       try {
-         const list = await getListCategory();
+         const list = await getListMemos();
 
-         return res.status(200).render('listCategory.hbs', { memos: [...list] });
+         return res.status(200).render('listMemos.hbs', { memos: [...list] });
       } catch (error) {
          next(error);
       }
@@ -15,7 +27,11 @@ module.exports = class MemoController {
 
    static async home(req, res, next) {
       try {
-         const list = await getListCategory();
+         if (req.newMemo) {
+            const newMemo = req.newMemo;
+
+            return res.status(201).render('addMemo.hbs', { newMemo, addedMemo: true });
+         }
 
          return res.status(200).render('addMemo.hbs');
       } catch (error) {
@@ -29,11 +45,15 @@ module.exports = class MemoController {
 
          const newTime = `${day} ${month} ${year}`;
 
-         const time = new Date(newTime);
+         const time = new Date(newTime).toUTCString();
 
-         const newMemo = await addMemo(req.body, time);
+         await addMemo(req.body, time);
+
          req.body = '';
-         return res.status(201).render('newMemo.hbs', { title, memo, time });
+         req.newMemo = { title, memo, time };
+         res.status(201);
+
+         next();
       } catch (error) {
          next(error);
       }
@@ -54,6 +74,50 @@ module.exports = class MemoController {
          (await req.body) === undefined ? deleteMemo(req.query) : deleteMemo(req.body);
 
          return res.status(201).end();
+      } catch (error) {
+         next(error);
+      }
+   }
+
+   static async addMemoOnCategoryGet(req, res, next) {
+      try {
+         return res.status(200).render('addMemoInCategory.hbs');
+      } catch (error) {
+         next(error);
+      }
+   }
+
+   static async addMemoOnCategory(req, res, next) {
+      try {
+         const { categoryId, memoId } = await findId(req.body);
+
+         await addMemoOnCategory(categoryId, memoId);
+
+         return await res.status(201).render('addMemoInCategory.hbs');
+      } catch (error) {
+         next(error);
+      }
+   }
+
+   static async removeMemoFromCategory(req, res, next) {
+      try {
+         const memoId = req.params.id;
+         const categoryID = req.category.id;
+
+         await removeMemoFromCategory(memoId, categoryID);
+
+         return await res.status(200).end();
+      } catch (error) {
+         next(error);
+      }
+   }
+   static async aggregateMemoInCategory(req, res, next) {
+      try {
+         const memoId = req.params.id;
+
+         const memoInCategory = await aggregateMemoInCategory(memoId);
+
+         return await res.status(200).send(memoInCategory);
       } catch (error) {
          next(error);
       }

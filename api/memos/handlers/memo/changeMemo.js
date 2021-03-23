@@ -1,6 +1,6 @@
 'use strick';
 
-const memoModel = require('../data/memo.model');
+const memoModel = require('../../model/memo.model');
 
 module.exports = async ({ id, category }) => {
    try {
