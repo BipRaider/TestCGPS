@@ -1,2 +1,8 @@
 <p>{{categoryList.category}}</p>
-
+<ul>
+    {{#each categoryList.memos}}
+            <li><p>Название заметки: {{title}}</p>
+                  <p>Текс заметки: {{memo}}</p>
+                  <p>Время создание: {{time}}</p></li>
+    {{/each}}
+</ul>

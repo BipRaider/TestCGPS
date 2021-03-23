@@ -20,8 +20,6 @@ userRouter.get('/add', MemoController.addMemoOnCategoryGet);
 
 userRouter.post('/add', MemoValidator.validateMemoInCategory, MemoController.addMemoOnCategory);
 
-userRouter.get('/get', MemoValidator.validateID, MemoController.aggregateMemoInCategory);
-
 userRouter.delete('/delete', MemoValidator.validateID, MemoController.removeMemoFromCategory);
 
 module.exports = userRouter;

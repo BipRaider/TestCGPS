@@ -57,7 +57,6 @@ module.exports = class ValidatorMemo {
       next();
    }
    static validateMemoInCategory(req, res, next) {
-      console.dir(req.body);
       const validationMemo = Joi.object({
          category: Joi.string().required(),
          title: Joi.string().required(),

@@ -17,7 +17,7 @@ memoSchema.statics.findData = findData;
 memoSchema.statics.findMemoByTitle = findMemoByTitle;
 
 async function getMemos() {
-   return await this.find();
+   return await this.find().sort({ time: 1 });
 }
 
 async function findMemoByID(_id) {
@@ -28,8 +28,8 @@ async function findMemoByTitle(value) {
    return await this.findOne({ title: value });
 }
 
-async function updateMemo(id, category) {
-   return await this.findByIdAndUpdate(id, { category }, { new: true });
+async function updateMemo(id, memo) {
+   return await this.findByIdAndUpdate(id, { memo }, { new: true });
 }
 
 async function removeMemo(_id) {
