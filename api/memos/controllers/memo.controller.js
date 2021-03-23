@@ -1,7 +1,5 @@
 'use strict';
 
-const EventEmitter = require('events');
-
 const {
    addMemo,
    changeMemo,
@@ -14,7 +12,7 @@ const {
 
 const findId = require('../handlers/findId');
 
-module.exports = class MemoController extends EventEmitter {
+module.exports = class MemoController {
    static async getListMemos(req, res, next) {
       try {
          const list = await getListMemos();
