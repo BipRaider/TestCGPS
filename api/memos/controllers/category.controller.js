@@ -1,27 +1,17 @@
 'use strict';
 
 const { addCategory, deleteCategory, getListCategory } = require('../handlers/category');
-const { aggregateMemoInCategory } = require('../handlers/memo');
+const aggregateListCategory = require('../handlers/aggregateListCategory');
 
-const fn = async ({ category }) => {
-   const text = await aggregateMemoInCategory(category);
-   return text;
-};
 module.exports = class CategoryController {
    static async getListCategory(req, res, next) {
       try {
          const list = await getListCategory();
 
-         const newList = await list.map(value => fn(value));
-
-         let categoryList = [];
-
-         for await (const doc of newList) {
-            categoryList.push(...doc);
-         }
+         const newList = await aggregateListCategory(list);
 
          return res.status(200).render('listCategory.hbs', {
-            category: { ...categoryList },
+            category: { ...newList },
          });
       } catch (error) {
          next(error);
