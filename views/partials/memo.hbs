@@ -7,7 +7,7 @@
                   <p>Время создание: {{newMemo.time}}</p>
 
    </div>
-
+    <a href="/memo/change/{{newMemo.id}}">Edit</a>|
     <form action="/memo/delete/{{newMemo.id}}" method="POST" style="display:inline;">
         <input type="submit" value="Delete" />
     </form>

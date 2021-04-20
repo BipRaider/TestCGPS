@@ -28,8 +28,8 @@ async function findMemoByTitle(value) {
    return await this.findOne({ title: value });
 }
 
-async function updateMemo(id, memo) {
-   return await this.findByIdAndUpdate(id, { memo }, { new: true });
+async function updateMemo(data) {
+   return await this.findByIdAndUpdate(data.id, { ...data }, { new: true });
 }
 
 async function removeMemo(_id) {

@@ -2,6 +2,7 @@
 
 exports.addMemo = require('./addMemo');
 exports.changeMemo = require('./changeMemo');
+exports.changeMemoForCategory = require('./changeMemoForCategory');
 exports.deleteMemo = require('./deleteMemo');
 exports.getListMemos = require('./getListMemos');
 exports.findMemo = require('./findMemo');

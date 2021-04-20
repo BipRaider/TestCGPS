@@ -2,9 +2,15 @@
 
 const memoModel = require('../../model/memo.model');
 
-module.exports = async ({ memo }) => {
+module.exports = async ({ memo, id }) => {
    try {
-      const findMemo = await memoModel.findMemoByID(memo);
+      let findMemo;
+      if (id) {
+         findMemo = await memoModel.findMemoByID(id);
+         return findMemo._doc;
+      } else {
+         findMemo = await memoModel.findMemoByID(memo);
+      }
 
       if (!findMemo) {
          const err = new Error(`Is't found memo`);

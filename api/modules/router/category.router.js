@@ -16,6 +16,6 @@ userRouter.post(
    CategoryController.home,
 );
 
-userRouter.delete('/', CategoryValidator.validateID, CategoryController.deleteCategory);
+userRouter.post('/delete/:id', CategoryValidator.validateID, CategoryController.deleteCategory);
 
 module.exports = userRouter;

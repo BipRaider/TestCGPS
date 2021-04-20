@@ -1,7 +1,10 @@
 <p>{{memoList.category}}</p>
-<p>{{memoList.title}}</p>
-<p>{{memoList.memo}}</p>
-<p>{{memoList.time}}</p>
-  <form action="/memo/delete/{{memoList.id}}" method="POST" style="display:inline;">
-        <input type="submit" value="Delete" />
-  </form>
+<p>Название заметки: {{memoList.title}}</p>
+<p>Текс заметки: {{memoList.memo}}</p>
+<p>Время создание: {{memoList.time}}</p>
+
+<a href="/memo/change/{{memoList.id}}">Edit</a>|
+
+<form action="/memo/delete/{{memoList.id}}" method="POST" style="display:inline;">
+<input type="submit" value="Delete" />
+</form>

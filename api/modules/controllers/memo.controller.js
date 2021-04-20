@@ -8,6 +8,7 @@ const {
    removeMemoFromCategory,
    addMemoOnCategory,
    aggregateMemoInCategory,
+   findMemo,
 } = require('../handlers/memo');
 
 const { getListCategory } = require('../handlers/category');
@@ -25,7 +26,7 @@ module.exports = class MemoController {
       }
    }
 
-   static async memo(req, res, next) {
+   static async memoPage(req, res, next) {
       try {
          if (req.newMemo) {
             const newMemo = req.newMemo;
@@ -65,11 +66,29 @@ module.exports = class MemoController {
       }
    }
 
+   static async changeMemoPage(req, res, next) {
+      try {
+         const { time, memo, title, _id: id } = await findMemo(req.params);
+
+         const times = {
+            year: time.getUTCFullYear(),
+            day: time.getUTCDate(),
+            month: time.getUTCMonth() + 1,
+         };
+
+         return res.status(201).render('changeMemo.hbs', { ...times, memo, title, id });
+      } catch (error) {
+         next(error);
+      }
+   }
+
    static async changeMemo(req, res, next) {
       try {
-         const memo = await changeMemo(req.body);
+         const newMemo = { ...req.body, id: req.params.id };
 
-         return res.status(201).json(memo);
+         await changeMemo(newMemo);
+
+         return res.status(201).redirect('/memo/list');
       } catch (error) {
          next(error);
       }
