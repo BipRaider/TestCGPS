@@ -6,7 +6,9 @@ module.exports = async () => {
    try {
       const listMemos = await memoModel.getMemos();
 
-      return listMemos.map(value => value._doc);
+      return listMemos.map(({ _doc: { memo, time, _id, title } }) => {
+         return { memo, time, id: _id, title };
+      });
    } catch (error) {
       throw error;
    }

@@ -2,4 +2,6 @@
 <p>{{memoList.title}}</p>
 <p>{{memoList.memo}}</p>
 <p>{{memoList.time}}</p>
-
+  <form action="/memo/delete/{{memoList.id}}" method="POST" style="display:inline;">
+        <input type="submit" value="Delete" />
+  </form>

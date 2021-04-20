@@ -5,6 +5,12 @@
                   <p>Название заметки: {{newMemo.title}}</p>
                   <p>Текс заметки: {{newMemo.memo}}</p>
                   <p>Время создание: {{newMemo.time}}</p>
+
    </div>
+
+    <form action="/memo/delete/{{newMemo.id}}" method="POST" style="display:inline;">
+        <input type="submit" value="Delete" />
+    </form>
+
   </div>
 </div>

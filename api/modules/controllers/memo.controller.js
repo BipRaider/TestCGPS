@@ -10,6 +10,8 @@ const {
    aggregateMemoInCategory,
 } = require('../handlers/memo');
 
+const { getListCategory } = require('../handlers/category');
+
 const findId = require('../handlers/findId');
 
 module.exports = class MemoController {
@@ -23,7 +25,7 @@ module.exports = class MemoController {
       }
    }
 
-   static async home(req, res, next) {
+   static async memo(req, res, next) {
       try {
          if (req.newMemo) {
             const newMemo = req.newMemo;
@@ -39,16 +41,22 @@ module.exports = class MemoController {
 
    static async addMemo(req, res, next) {
       try {
-         const { year, month, day, title, memo } = req.body;
+         const { year, month, day } = req.body;
 
          const newTime = `${day} ${month} ${year}`;
 
          const time = new Date(newTime).toUTCString();
 
-         await addMemo(req.body, time);
+         const newMemos = await addMemo(req.body, time);
+
+         const {
+            memo: { memo, title, _id: id },
+            massages,
+         } = newMemos;
 
          req.body = '';
-         req.newMemo = { title, memo, time };
+         req.newMemo = { memo, title, massages, time, id };
+
          res.status(201);
 
          next();
@@ -69,9 +77,9 @@ module.exports = class MemoController {
 
    static async deleteMemo(req, res, next) {
       try {
-         (await req.body) === undefined ? deleteMemo(req.query) : deleteMemo(req.body);
+         await deleteMemo(req.params);
 
-         return res.status(201).end();
+         return res.status(201).redirect('/memo/list');
       } catch (error) {
          next(error);
       }
@@ -79,7 +87,13 @@ module.exports = class MemoController {
 
    static async addMemoOnCategoryGet(req, res, next) {
       try {
-         return res.status(200).render('addMemoInCategory.hbs');
+         const listMemo = await getListMemos();
+         const listCategory = await getListCategory();
+
+         return res.status(200).render('addMemoInCategory.hbs', {
+            memos: [...listMemo],
+            categorys: [...listCategory],
+         });
       } catch (error) {
          next(error);
       }
@@ -91,7 +105,7 @@ module.exports = class MemoController {
 
          await addMemoOnCategory(categoryId, memoId);
 
-         return await res.status(201).render('addMemoInCategory.hbs');
+         return await res.status(201).redirect('/add');
       } catch (error) {
          next(error);
       }

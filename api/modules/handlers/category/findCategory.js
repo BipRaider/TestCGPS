@@ -4,7 +4,7 @@ const categoryModel = require('../../model/category.model');
 
 module.exports = async ({ category }) => {
    try {
-      const findCategory = await categoryModel.findCategoryByCategory(category);
+      const findCategory = await categoryModel.findCategoryByID(category);
 
       if (!findCategory) {
          const err = new Error(`Is't found memo`);
